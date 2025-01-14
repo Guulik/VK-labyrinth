@@ -29,6 +29,54 @@ func TestShortestPath(t *testing.T) {
 				{2, 0},
 				{2, 1},
 			},
+		},
+		{
+			name: "medium 4x4",
+			input: `4 4
+1 2 3 1
+0 0 1 1
+1 1 9 1
+1 1 1 1
+0 0 3 3
+`,
+			want: []pq.Point{
+				{0, 0},
+				{0, 1},
+				{0, 2},
+				{1, 2},
+				{1, 3},
+				{2, 3},
+				{3, 3},
+			},
+		},
+		{
+			name: "no way!!!",
+			input: `4 4
+0 0 1 1
+0 0 1 1
+0 0 1 1
+1 1 1 1
+0 0 3 3
+`,
+			want:    nil,
+			wantErr: noPathErr,
+		},
+		{
+			name: "difficult",
+			input: `3 4
+1 2 0 1
+0 3 1 3
+1 0 4 5
+0 0 2 3
+`,
+			want: []pq.Point{
+				{0, 0},
+				{0, 1},
+				{1, 1},
+				{1, 2},
+				{1, 3},
+				{2, 3},
+			},
 			wantErr: nil,
 		},
 	}
@@ -53,7 +101,7 @@ func TestShortestPath(t *testing.T) {
 
 			path, err := ShortestPath(lab, start, end)
 			require.Equal(t, tt.want, path)
-			require.NoError(t, err)
+			require.ErrorIs(t, tt.wantErr, err)
 		})
 	}
 }
