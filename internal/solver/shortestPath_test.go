@@ -79,6 +79,29 @@ func TestShortestPath(t *testing.T) {
 			},
 			wantErr: nil,
 		},
+		{
+			name: "one cell",
+			input: `1 1
+1
+0 0 0 0
+`,
+			want: []pq.Point{
+				{0, 0},
+			},
+		}, {
+			name: "one row",
+			input: `1 5
+1 7 3 2 9
+0 4 0 0
+`,
+			want: []pq.Point{
+				{0, 4},
+				{0, 3},
+				{0, 2},
+				{0, 1},
+				{0, 0},
+			},
+		},
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
